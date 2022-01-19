@@ -5,10 +5,6 @@ Apriori can be used to determine association rules which highlight general
 trends in the database.
 '''
 
-from hashlib import new
-from re import A
-
-
 class Apriori:
     def __init__(self, items, transaction, support_threshold):
         self.transaction = transaction
