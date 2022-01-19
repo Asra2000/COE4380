@@ -53,7 +53,7 @@ class Apriori:
         return freq
 
     '''
-    Generate k+1 item sets from k item sets
+    Generate kth item sets from (k-1)th item sets
     '''
     def join(self, k):
         new_sequence = []
