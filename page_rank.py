@@ -1,4 +1,11 @@
+'''
+A pageRank algorithm helps in rannking the pages based on the probability that, the page will be viewed by a random sufer.
 
+Let PR(p) be the PageRank of a given page p: the probability that a random surfer ends up on that page. 
+There are two ways that a random surfer could end up on the page:
+1.  With probability d, the surfer chose a page at random and ended up on page p.
+2.  With probability 1-d, the surfer followed a link from a page i to page p. (where i can be any page pointing to p)
+'''
 class Page:
     def __init__(self, val) -> None:
         self.initial_value = val
@@ -16,7 +23,8 @@ class Page:
 
 def main():
     iterations  = int(input("Enter # iterations:"))
-    d = float(input("d(factor):"))
+    # A damping factor helps in identifying how likely is for a random surfer to randomly click on external link.
+    d = float(input("d(damping factor):"))
     page_count = int(input("Enter # of pages:"))
     print("Enter initial values - ")
     pages = []
