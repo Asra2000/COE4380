@@ -1,6 +1,7 @@
 import math
+from statistics import variance
 
-def d_and_p(ranks):
+def get_mean(ranks):
     length = len(ranks[0])
     n = len(ranks)
     print("Mean - ")
@@ -11,7 +12,11 @@ def d_and_p(ranks):
             sum += rank[i]
         print(f"~x_{i+1} = {round(sum/n, 2)}")
         means.append(round(sum/n, 2))
-    
+    return means
+
+def get_variance(ranks, means):
+    length = len(ranks[0])
+    n = len(ranks)
     variances = []
     print("Variance -")
     for i in range(length):
@@ -20,7 +25,14 @@ def d_and_p(ranks):
             variance += (rank[i] - means[i])**2
         print(f"\u03C3{i+1}^2 = {round(variance/n, 2)}")
         variances.append(round(variance/n, 2))
+    return variances
 
+def d_and_p(ranks):
+    length = len(ranks[0])
+    n = len(ranks)
+    means = get_mean(ranks)
+    variances = get_variance(ranks, means)
+    
     print("Dubios and Prade formula - ")
     print("Gaussian Membership Function - degree of belonginess of doc i at position x")
     print("\u03BC_d_i(x) = 1/(2pi(\u03C3_d)^2)^.5 * exp (-0.5[(x - x_d)^ 2 / (\u03C3_d)^2])")
@@ -83,4 +95,5 @@ def main():
     new_rank.sort()
     print(new_rank)
 
-main()
+if __name__ == "__main__":
+    main()
