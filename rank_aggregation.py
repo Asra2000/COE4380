@@ -1,13 +1,17 @@
 import math
 
-def borda_score(rank1, rank2):
+def borda_score(rank1, rank2, w1 =  1, w2 = 1):
     print("S(c_j) = \u03A3S_i(c_j)")
     length = len(rank1)
     f = {}
     for i in range(length):
-        f[i] = 2*length - rank1[i] - rank2[i]
-        print(f"S({i+1}) = S_1({i+1} + S_2({i+1})) = {length - rank1[i]} + {length - rank2[i]} = {f[i]}")
-    print({k: v for k, v in sorted(f.items(), key=lambda item: item[1], reverse=True)})
+        f[i] = w1 * (length - rank1[i]) + w2 * (length - rank2[i])
+        if w1 == w2 and w1 == 1:
+            print(f"S({i+1}) = S_1({i+1} + S_2({i+1})) = {length - rank1[i]} + {length - rank2[i]} = {f[i]}")
+        else:
+            print(f"S({i+1}) = S_1({i+1} + S_2({i+1})) = {w1} * {length - rank1[i]} + {w2} * {length - rank2[i]} = {f[i]}")
+
+    print({k+1: v for k, v in sorted(f.items(), key=lambda item: item[1], reverse=True)})
 
 
 def spearman_footrule_formula(rank1, rank2):
@@ -38,4 +42,5 @@ def main():
     else:
         borda_score(ranks[0], ranks[1])
 
-main()
+if __name__ == "__main__":
+    main()

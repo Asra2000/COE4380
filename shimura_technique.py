@@ -1,4 +1,7 @@
-def shimura_technique(ranks) :
+from operator import le
+from ordered_weighted_avg import OWA
+
+def shimura_technique(ranks, improve = False) :
     print("Shimura Technique")
     length = len(ranks[0])
     n = len(ranks)
@@ -18,6 +21,14 @@ def shimura_technique(ranks) :
             print(f[x_i][x_j], end = "\t")
         print()
 
+    if not improve:
+        find_minimum(length, f)
+
+    else:
+        improved_shimura_technique(length, f)
+    
+
+def find_minimum(length, f):
     minimum_c = []
     print("Where this func. is taken to be the membership of preferring  x_i over x_j")
     print("f(x_i|x_j) = f_x_j(x_i) / max(f_x_j(x_i), f_x_j(x_j)) = ")
@@ -25,7 +36,6 @@ def shimura_technique(ranks) :
         minimum = f[x_i][0]
         for x_j in range(length):
             maximum = max(f[x_i][x_j], f[x_j][x_i])
-            # print("\np", x_i, x_j, f[x_i][x_j], f[x_j][x_i])
             f[x_i][x_j] = round(f[x_i][x_j] / maximum, 4)
             minimum = min(f[x_i][x_j], minimum)
             print(f[x_i][x_j], end = "\t")
@@ -36,7 +46,28 @@ def shimura_technique(ranks) :
     for minimum in minimum_c:
         print(minimum[1], f"[{minimum[0]}]") 
 
+    print("ordering of pages with minimum value = ")
     minimum_c.sort()
+    for minimum in minimum_c:
+        print(minimum)
+
+def improved_shimura_technique(length, f):
+    minimum_c = []
+    for x, val in enumerate(f):
+        val.sort(reverse = True)
+        ob = OWA(0.0, .5, val)
+        atleast_half = ob.find_weight()
+        minimum_c.append([atleast_half, x])
+    
+    print("Based on Condorcet Criteria: if some element d belonging to a set defeats \
+        \nevery other element in pairwirse majority voting, then this element is ranked first; \
+        \nnecessary for span fighting. ")
+    print("Atleast half of each row = ")
+    for minimum in minimum_c:
+        print(minimum[1], f"[{minimum[0]}]") 
+
+    print("ordering of pages with minimum value = ")
+    minimum_c.sort(reverse=True)
     for minimum in minimum_c:
         print(minimum)
 
@@ -49,6 +80,8 @@ def main():
         for j,rank in enumerate(input().strip().split()):
             ranks[i][int(rank)-1] = j+1
 
-    shimura_technique(ranks)
+    improved = input("Improved shimura technique (y/n) :") == 'y'
+    shimura_technique(ranks, improved)
     
-main()
+if __name__ == "__main__":
+    main()

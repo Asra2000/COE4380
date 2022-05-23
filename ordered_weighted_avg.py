@@ -48,6 +48,8 @@ class OWA:
 
         print("\n\nk = " ,  round(k, 5))
 
+        return k
+
 def main():
     a = float(input("a: "))
     b = float(input("b: "))
@@ -89,4 +91,5 @@ def main():
     ob = OWA(a, b, val)
     ob.find_weight()
 
-main()
+if __name__ == "__main__":
+    main()
